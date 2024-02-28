@@ -18,6 +18,12 @@ class Election:
         self.candidates.append(candidate)
 
     def vote(self, candidate_index):
+        try:
+            candidate_index = int(candidate_index)
+        except ValueError:
+            st.error("Invalid candidate index.")
+            return
+
         if 0 <= candidate_index < len(self.candidates):
             self.candidates[candidate_index].add_vote()
             st.success("Vote cast successfully!")
@@ -45,7 +51,7 @@ def main():
 
     st.header("Cast Vote")
     vote_options = [candidate.name for candidate in election.candidates]
-    vote_index = st.selectbox("Select Candidate to Vote", range(len(vote_options)))
+    vote_index = st.selectbox("Select Candidate to Vote", vote_options)
     if st.button("Cast Vote"):
         election.vote(vote_index)
 
